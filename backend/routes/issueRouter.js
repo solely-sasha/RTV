@@ -14,7 +14,7 @@ issueRouter.get("/", async (req, res) => {
       title: { $regex: query.search, $options: "i" },
     };
     const issues = await Issue.find(query.search ? searchFilter : null)
-      .sort({ "votes.length": "desc" })
+      .sort({ upvoteCount: "desc" })
       .exec();
     res.status(200).json(issues);
   } catch (err) {
