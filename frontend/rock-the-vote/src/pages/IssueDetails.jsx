@@ -18,7 +18,6 @@ export default function IssueDetails() {
   const [comment, setComment] = useState("");
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
- 
 
   const fetchIssue = async () => {
     try {
@@ -94,8 +93,9 @@ export default function IssueDetails() {
         },
         { withCredentials: true }
       );
-      window.location.reload(true);
-      // console.log(res.data);
+
+      setComments([...comments, res.data]);
+      setComment("");
     } catch (err) {
       console.log(err);
     }
@@ -175,6 +175,8 @@ export default function IssueDetails() {
               onChange={(e) => setComment(e.target.value)}
               type="text"
               placeholder="Write a comment"
+              name="comment"
+              value={comment}
               className="md:w-[80%] outline-none py-2 px-4 mt-4 md:mt-0"
             />
             <button

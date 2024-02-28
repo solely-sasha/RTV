@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import { ImCross } from "react-icons/im";
 import { UserContext } from "../context/UserContext";
 
-export default function CreatePost() {
+export default function CreateIssue() {
   const initInputs = {
     title: "",
     description: "",
@@ -17,7 +17,6 @@ export default function CreatePost() {
   const { user } = useContext(UserContext);
   const [cat, setCat] = useState("");
   const [cats, setCats] = useState([]);
-  const [votes, setVotes] = useState(0);
 
   const navigate = useNavigate();
 
@@ -49,7 +48,6 @@ export default function CreatePost() {
       image: imgUrl,
       username: user.username,
       userId: user._id,
-      votes,
 
       categories: cats,
     };

@@ -16,7 +16,9 @@ export function UserContextProvider({ children }) {
 
   const decodeToken = (token) => {
     try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
+      const payload = JSON.parse(
+        Buffer.from(token.split(".")[1], "base64").toString()
+      );
       return payload;
     } catch (err) {
       console.error("Error decoding token:", err);

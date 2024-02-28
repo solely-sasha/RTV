@@ -9,7 +9,7 @@ authRouter.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword =  bcrypt.hashSync(password, salt);
+    const hashedPassword = bcrypt.hashSync(password, salt);
     const newUser = new User({ username, email, password: hashedPassword });
     const savedUser = await newUser.save();
     res.status(200).json(savedUser);
@@ -55,6 +55,5 @@ authRouter.get("/logout", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 module.exports = authRouter;
