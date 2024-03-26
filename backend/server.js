@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const path = require("path");
 
 // database
 const connectDB = async () => {
@@ -23,6 +24,11 @@ app.use("/api/auth", require("./routes/authRouter.js"));
 app.use("/api/users", require("./routes/userRouter.js"));
 app.use("/api/issues", require("./routes/issueRouter.js"));
 app.use("/api/comments", require("./routes/commentRouter.js"));
+app.use(express.static(path.join(__dirname, "client", "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 app.listen(5000, () => {
   connectDB();
