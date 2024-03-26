@@ -9,30 +9,17 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
-      const decodedToken = decodeToken(storedToken);
-      setUser(decodedToken);
+      setUser(storedToken);
     }
   }, []);
-
-  const decodeToken = (token) => {
-    try {
-      const payload = JSON.parse(
-        Buffer.from(token.split(".")[1], "base64").toString()
-      );
-      return payload;
-    } catch (err) {
-      console.error("Error decoding token:", err);
-      return null;
-    }
-  };
 
   const login = async (credentials) => {
     try {
       const res = await axios.post("/api/auth/login", credentials);
       const token = res.data.token;
       localStorage.setItem("token", token);
-      const decodedToken = decodeToken(token);
-      setUser(decodedToken);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setUser(token);
     } catch (err) {
       console.error(err);
     }

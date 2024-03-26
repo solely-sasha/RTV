@@ -18,6 +18,7 @@ authRouter.post("/signup", async (req, res) => {
   }
 });
 // login
+
 authRouter.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -37,8 +38,10 @@ authRouter.post("/login", async (req, res) => {
         expiresIn: "3d",
       }
     );
-    const { password, ...info } = user._doc;
-    res.cookie("token", token).status(200).json(info);
+    res
+      .cookie("token", token, { httpOnly: true, sameSite: "strict" })
+      .status(200)
+      .json({ token, user }); // Send token back to client
   } catch (err) {
     res.status(500).json(err);
   }

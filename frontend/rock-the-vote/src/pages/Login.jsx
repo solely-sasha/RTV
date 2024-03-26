@@ -2,11 +2,11 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import logo from "../assets/images/RTVlogo.jpg";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 import { UserContext } from "../context/UserContext";
 
 export default function Login() {
-  const initInputs = { email: "", username: "", password: "" };
+  const initInputs = { email: "", password: "" };
   const [inputs, setInputs] = useState(initInputs);
   const [error, setError] = useState("");
   const { setUser } = useContext(UserContext);
@@ -22,18 +22,19 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("/api/auth/login", inputs, {
+      const res = await axiosInstance.post("/api/auth/login", inputs, {
         withCredentials: true,
       });
-      // console.log("login success", res.data);
-      setUser(res.data);
+      localStorage.setItem("token", res.data.token);
+      setUser(res.data.user);
       navigate("/");
     } catch (err) {
-      setError(true);
-      console.log(err);
+      setError("Invalid email or password");
+      console.error(err);
     }
   };
-  const { email, username, password } = inputs;
+
+  const { email, password } = inputs;
 
   return (
     <>
@@ -62,16 +63,8 @@ export default function Login() {
           />
           <input
             className="w-full px-4 py-2 border-2 border-black outline-0"
-            placeholder="your username"
-            type="text"
-            name="username"
-            value={username}
-            onChange={handleChange}
-          />
-          <input
-            className="w-full px-4 py-2 border-2 border-black outline-0"
             type="password"
-            placeholder="your password"
+            placeholder="Your password"
             name="password"
             value={password}
             onChange={handleChange}
@@ -82,10 +75,7 @@ export default function Login() {
           >
             Log in
           </button>
-          {error && (
-            <h3 className="text-red-500 text-sm">something went wrong</h3>
-          )}
-
+          {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-center items-center space-x-3">
             <p>New here?</p>
             <p className="text-gray-500 hover:text-black">

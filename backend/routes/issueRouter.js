@@ -72,7 +72,7 @@ issueRouter.delete("/:id", verifyToken, async (req, res) => {
 // create
 issueRouter.post("/create", verifyToken, async (req, res) => {
   try {
-    const newIssue = new Issue(req.body);
+    const newIssue = await new Issue(req.body);
     const savedIssue = await newIssue.save();
     res.status(200).json(savedIssue);
   } catch (err) {

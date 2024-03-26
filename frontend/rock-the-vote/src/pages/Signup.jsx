@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import logo from "../assets/images/RTVlogo.jpg";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 export default function Signup() {
   const initInputs = { email: "", username: "", password: "" };
@@ -21,7 +21,7 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/auth/signup", inputs);
+      const res = await axiosInstance.post("/api/auth/signup", inputs);
       setInputs(res.data);
       setError(false);
       navigate("/login");

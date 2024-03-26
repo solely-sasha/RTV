@@ -14,6 +14,7 @@ export default function Home() {
   const [noResults, setNoResults] = useState(false);
   const [loader, setLoader] = useState(false);
   const { user } = useContext(UserContext);
+  // console.log(user);
 
   const fetchIssues = async () => {
     setLoader(true);
