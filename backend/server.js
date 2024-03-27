@@ -24,10 +24,11 @@ app.use("/api/auth", require("./routes/authRouter.js"));
 app.use("/api/users", require("./routes/userRouter.js"));
 app.use("/api/issues", require("./routes/issueRouter.js"));
 app.use("/api/comments", require("./routes/commentRouter.js"));
-app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "frontend", "dist")));
+
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 });
 
 app.listen(5000, () => {
